@@ -74,4 +74,14 @@ argocdApplications:
     targetRevision: HEAD
     helm: true
 
+  cloudbeaver:
+    name: cloudbeaver
+    namespace: cloudbeaver
+    disableAutomated: false
+    disable: false
+    path: cloudbeaver
+    targetRevision: HEAD
+    helm: true
+
   # TODO: adicionar instalacoes q precisam de kustomize (airflow, jupyterhub, kube-vip)
+
