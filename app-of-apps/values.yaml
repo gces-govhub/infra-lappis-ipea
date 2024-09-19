@@ -19,3 +19,11 @@ argocdApplications:
     path: superset
     targetRevision: HEAD
     helm: true
+  minio:
+    name: minio
+    namespace: minio
+    disableAutomated: false
+    disable: false
+    path: minio
+    targetRevision: HEAD
+    helm: true
