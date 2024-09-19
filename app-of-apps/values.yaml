@@ -65,4 +65,13 @@ argocdApplications:
     targetRevision: HEAD
     helm: true
 
-# TODO: adicionar instalacoes q precisam de kustomize (airflow, jupyterhub, kube-vip)
+  minio:
+    name: minio
+    namespace: minio
+    disableAutomated: false
+    disable: false
+    path: minio
+    targetRevision: HEAD
+    helm: true
+
+  # TODO: adicionar instalacoes q precisam de kustomize (airflow, jupyterhub, kube-vip)
