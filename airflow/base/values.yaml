@@ -1,0 +1,272 @@
+useStandardNaming: true
+
+defaultAirflowRepository: joycedio/airflow-ipea
+defaultAirflowTag: "latest"
+airflowVersion: "2.9.3"
+
+executor: "CeleryKubernetesExecutor"
+
+config:
+  core:
+    test_connection: "enabled"
+  # webserver:
+  #   expose_config: true
+  # TODO: reevaluate before production
+  kubernetes_executor:
+    logs_task_metadata: true
+  logging:
+    remote_logging: 'True'
+    logging_level: 'INFO'
+    remote_base_log_folder: 's3://airflow-logs'
+    remote_log_conn_id: 'aws_default'
+
+secret:
+  - envName: AIRFLOW__SMTP__SMTP_HOST
+    secretName: "airflow-smtp"
+    secretKey: host
+  - envName: AIRFLOW__SMTP__SMTP_STARTTLS
+    secretName: "airflow-smtp"
+    secretKey: starttls
+  # mutually exclusive with SMTP_STARTTLS
+  - envName: AIRFLOW__SMTP__SMTP_SSL
+    secretName: "airflow-smtp"
+    secretKey: ssl
+  - envName: AIRFLOW__SMTP__SMTP_USER
+    secretName: "airflow-smtp"
+    secretKey: user
+  - envName: AIRFLOW__SMTP__SMTP_PASSWORD
+    secretName: "airflow-smtp"
+    secretKey: password
+  # use port 465 if SMTP_SSL is True
+  - envName: AIRFLOW__SMTP__SMTP_PORT
+    secretName: "airflow-smtp"
+    secretKey: port
+  - envName: AIRFLOW__SMTP__SMTP_MAIL_FROM
+    secretName: "airflow-smtp"
+    secretKey: mail_from
+  - envName: AIRFLOW_CONN_AWS_DEFAULT
+    secretName: "minio-airflow-svcacct"
+    secretKey: AIRFLOW_CONN_AWS_DEFAULT
+
+extraEnv: |
+  - name: AIRFLOW__METRICS__METRICS_ALLOW_LIST
+    value: "scheduler,executor,dagrun"
+  - name: AIRFLOW__METRICS__STATSD_ON
+    value: "True"
+  # # TODO: review value after installing Grafana Tempo
+  # - name: AIRFLOW__METRICS__OTEL_ON
+  #   value: "True"
+  
+  - name: AIRFLOW__SCHEDULER__SCHEDULER_HEARTBEAT_SEC
+    value: "2"
+  # - name: AIRFLOW__SCHEDULER__PARSING_PROCESSES
+  #   value: "4"
+
+  - name: AIRFLOW__API__AUTH_BACKENDS
+    value: "airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session"
+  - name: AIRFLOW__CORE__DAGBAG_IMPORT_TIMEOUT
+    value: "120"
+  - name: AIRFLOW__CORE__DAG_FILE_PROCESSOR_TIMEOUT
+    value: "180"
+  - name: AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION
+    value: "False"
+  - name: AIRFLOW__CORE__DEFAULT_TIMEZONE
+    value: America/Sao_Paulo
+  - name: AIRFLOW__CORE__ENABLE_XCOM_PICKLING
+    value: "True"
+  # TODO: enable datahub after datahub is installed. Maybe configure more params.
+  - name: AIRFLOW__DATAHUB__ENABLED
+    value: "False"
+  - name: AIRFLOW__SCHEDULER__DAG_DIR_LIST_INTERVAL
+    value: "120"
+  - name: AIRFLOW__SCHEDULER__TASK_QUEUED_TIMEOUT
+    value: "60"
+  - name: AIRFLOW__SCHEDULER__TASK_QUEUED_TIMEOUT_CHECK_INTERVAL
+    value: "20"
+  - name: AIRFLOW__WEBSERVER__DEFAULT_UI_TIMEZONE
+    value: America/Sao_Paulo
+  - name: AIRFLOW__WEBSERVER__NAVBAR_COLOR
+    value: "#FFD700"
+  # TODO: always remember to sync with `run-airflow-migrations-job-patch.yaml` and `create-user-job-patch.yaml`
+  - name: PYTHONPATH
+    value: "/usr/local/lib/python310.zip:/usr/local/lib/python3.10:/usr/local/lib/python3.10/lib-dynload:/home/airflow/.local/lib/python3.10/site-packages:/usr/local/lib/python3.10/site-packages:/opt/airflow/dags-config/repo:/opt/airflow/dags-config/repo/plugins:/opt/airflow/dags:/opt/airflow/config"
+
+  - name: AIRFLOW__CORE__PLUGINS_FOLDER
+    value: /opt/airflow/dags-config/repo/plugins
+  - name: AIRFLOW__CORE__DAGS_FOLDER
+    value: /opt/airflow/dags-config/repo/dags
+
+# Airflow database & redis config
+data:
+  metadataSecretName: airflow-metadata
+  resultBackendSecretName: ~
+  brokerUrlSecretName: airflow-broker-url
+  # resultBackendConnection defaults to the same database as metadataConnection
+  resultBackendConnection: ~
+
+fernetKeySecretName: airflow-fernet-key
+webserverSecretKeySecretName: airflow-webserver-secret-key
+
+postgresql:
+  enabled: false
+
+images:
+  airflow:
+    pullPolicy: Always
+  pod_template:
+    pullPolicy: Always
+
+workers:
+  # Airflow allows celery worker replicas to be scaled to 0, but HPA does not
+  replicas: 3
+  hpa:
+    enabled: true
+    minReplicaCount: 2
+    maxReplicaCount: 5
+    # Specifications for which to use to calculate the desired replica count
+    metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+    # Scaling behavior of the target in both Up and Down directions
+    behavior: {}
+
+  # already storing logs in MinIO
+  persistence:
+    enabled: false
+  # Deletes local log files after they are uploaded to a remote location
+  logGroomerSidecar:
+    enabled: true
+    # Number of days to retain logs
+    retentionDays: 2
+
+  extraVolumes:
+  - name: tmp
+    persistentVolumeClaim:
+      claimName: airflow-tmp
+  - name: bkps
+    persistentVolumeClaim:
+      claimName: airflow-bkps
+  - name: dags-data
+    persistentVolumeClaim:
+      claimName: airflow-dags-data
+  - name: great-expectations
+    persistentVolumeClaim:
+      claimName: airflow-great-expectations
+  extraVolumeMounts:
+  - name: tmp
+    mountPath: /tmp
+    readOnly: false
+  - name: bkps
+    mountPath: /var/backups
+    readOnly: false
+  - name: dags-data
+    mountPath: /opt/airflow/dags-data
+    readOnly: false
+  - name: great-expectations
+    mountPath: /opt/airflow/include/great-expectations
+    readOnly: false
+
+redis:
+  passwordSecretName: airflow-redis-password
+
+# Airflow scheduler settings
+scheduler:
+  enabled: true
+  replicas: 3
+  # # Max number of old replicasets to retain
+  # revisionHistoryLimit: ~
+
+  # Scheduler pod disruption budget
+  podDisruptionBudget:
+    enabled: true
+    config:
+      minAvailable: 1
+      maxUnavailable: ~
+
+  # Deletes local log files after they are uploaded to a remote location
+  logGroomerSidecar:
+    enabled: true
+    # Number of days to retain logs
+    retentionDays: 2
+
+  extraVolumes:
+  - name: dags-data
+    persistentVolumeClaim:
+      claimName: airflow-dags-data
+  extraVolumeMounts:
+  - name: dags-data
+    mountPath: /opt/airflow/dags-data
+    readOnly: false
+
+# can't disable only with Helm values
+createUserJob:
+  # Next two lines are necessary when using "helm install --wait (...)" or Argo CD
+  useHelmHooks: false
+  applyCustomEnv: false
+  # Run the create user job every time there is a Sync event in Argo CD
+  jobAnnotations:
+    "argocd.argoproj.io/hook": Sync
+    "argocd.argoproj.io/hook-delete-policy": HookSucceeded
+
+migrateDatabaseJob:
+  enabled: true
+  # Next two lines are necessary when using "helm install --wait (...)" or Argo CD
+  useHelmHooks: false
+  applyCustomEnv: false
+  # Run database migrations every time there is a Sync event in Argo CD
+  jobAnnotations:
+    "argocd.argoproj.io/hook": Sync
+    "argocd.argoproj.io/hook-delete-policy": HookSucceeded
+
+webserver:
+  enabled: true
+
+  service:
+    type: NodePort
+    ## service annotations
+    annotations: {}
+    ports:
+    - name: airflow-ui
+      port: 8080
+      targetPort: 8080
+      nodePort: 30007
+
+# Desnecessario, pois o pgcat ja eh utilizado
+pgbouncer:
+  enabled: false
+
+triggerer:
+  enabled: true
+  replicas: 3
+
+  # already storing logs in MinIO
+  persistence:
+    enabled: false
+  # Deletes local log files after they are uploaded to a remote location
+  logGroomerSidecar:
+    enabled: true
+    # Number of days to retain logs
+    retentionDays: 2
+
+# Git sync
+dags:
+  # Where dags volume will be mounted. Works for both persistence and gitSync.
+  # If not specified, dags mount path will be set to $AIRFLOW_HOME/dags
+  mountPath: /opt/airflow/dags-config
+  persistence:
+    enabled: false
+  gitSync:
+    enabled: true
+    repo: https://gitlab.com/lappis-unb/decidimbr/servicos-de-dados/airflow-dags
+    depth: 2
+    # the number of consecutive failures allowed before aborting
+    maxFailures: 0
+    # subpath within the repo where dags are located
+    # should be "" if dags are at repo root
+    subPath: "."
+    # Git credentials
+    credentialsSecret: airflow-git-credentials

@@ -1,0 +1,5 @@
+preUpgradeChecker:
+  jobEnabled: false
+
+# defaultSettings:
+#   backupTarget: nfs://<ip-vm-nfs>/exports/backups

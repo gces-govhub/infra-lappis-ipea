@@ -1,0 +1,111 @@
+proxy:
+  service:
+    type: NodePort
+    nodePorts:
+      http: 30010
+
+singleuser:
+  # TODO: allow HTTPS traffic to the internet (egress)
+  networkPolicy:
+    enabled: true
+    ingress: []
+    egress:
+      - to:
+          - podSelector:
+              matchLabels:
+                name: minio
+        ports:
+          - protocol: TCP
+            port: 30006
+      - to:
+          - podSelector:
+              matchLabels:
+                name: postgres
+        ports:
+          - protocol: TCP
+            port: 5432
+      # - to:
+      #     - ipBlock:
+      #         cidr:
+      #     - ports:
+      #         - protocol: TCP
+      #           port: 443
+    # egressAllowRules:
+    #   privateIPs: false
+
+  image:
+    name: quay.io/jupyter/minimal-notebook
+    tag: 9e230b3b7d24
+
+  profileList:
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 1, Memory 4G"
+    kubespawner_override:
+      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
+      cpu_limit: 1
+      mem_limit: '4G'
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 2, Memory 4G"
+    kubespawner_override:
+      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
+      cpu_limit: 2
+      mem_limit: '4G'
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 4, Memory 8G"
+    kubespawner_override:
+      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
+      cpu_limit: 4
+      mem_limit: '8G'
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 8, Memory 16G"
+    kubespawner_override:
+      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
+      cpu_limit: 8
+      mem_limit: '16G'
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 8, Memory 32G"
+    kubespawner_override:
+      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
+      cpu_limit: 8
+      mem_limit: '32G'
+  - display_name: "quay.io/jupyter/pyspark-notebook"
+    description: "Limit: CPU 1, Memory 4G"
+    kubespawner_override:
+      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
+      cpu_limit: 1
+      mem_limit: '4G'
+  - display_name: "quay.io/jupyter/minimal-notebook"
+    description: "Limit: CPU 2, Memory 4G"
+    kubespawner_override:
+      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
+      cpu_limit: 2
+      mem_limit: '4G'
+  - display_name: "quay.io/jupyter/minimal-notebook"
+    description: "Limit: CPU 4, Memory 8G"
+    kubespawner_override:
+      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
+      cpu_limit: 4
+      mem_limit: '8G'
+  - display_name: "quay.io/jupyter/minimal-notebook"
+    description: "Limit: CPU 8, Memory 16G"
+    kubespawner_override:
+      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
+      cpu_limit: 8
+      mem_limit: '16G'
+  - display_name: "quay.io/jupyter/minimal-notebook"
+    description: "Limit: CPU 8, Memory 32G"
+    kubespawner_override:
+      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
+      cpu_limit: 8
+      mem_limit: '32G'
+
+  storage:
+    dynamic:
+      storageAccessModes: [ReadWriteMany]
+    extraVolumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: shared-storage
+    extraVolumeMounts:
+      - name: shared-storage
+        mountPath: /home/shared

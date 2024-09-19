@@ -1,0 +1,6 @@
+prometheus:
+  metricServer:
+    enabled: true
+crds:
+  install: false
+  

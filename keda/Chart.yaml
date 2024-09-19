@@ -1,0 +1,9 @@
+apiVersion: 'v2'
+name: 'keda'
+description: 'keda'
+version: '1.14.1'
+type: application
+dependencies:
+- name: keda
+  repository: 'https://kedacore.github.io/charts'
+  version: 2.13.1
