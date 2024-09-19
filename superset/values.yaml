@@ -1,0 +1,57 @@
+superset:
+  replicaCount: 2
+
+  service:
+    type: ClusterIP
+    port: 8088
+
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+
+  externalDatabase:
+    type: postgresql
+    host: postgresql
+    port: 5432
+    user: superset
+    password: supersetpassword
+    database: superset_db
+
+  externalRedis:
+    host: redis
+    port: 6379
+    password: 'admin'
+  
+  configOverrides:
+    secret: |
+      import os
+      SECRET_KEY = os.getenv("SUPERSET_SECRET_KEY")
+
+  extraSecretEnv:
+    - name: SUPERSET_SECRET_KEY
+      secretName: superset-secret-key
+      secretKey: SUPERSET_SECRET_KEY
+
+
+postgresql:
+  enabled: true
+  auth:
+    username: superset
+    password: supersetpassword
+    database: superset_db
+  primary:
+    persistence:
+      enabled: false 
+
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false 

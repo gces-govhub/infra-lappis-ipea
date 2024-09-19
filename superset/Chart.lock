@@ -1,0 +1,12 @@
+dependencies:
+- name: superset
+  repository: https://apache.github.io/superset
+  version: 0.12.11
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.1.6
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 17.9.4
+digest: sha256:2e8af20cb021c41ad08185b6311814652b23437c673c5cd008f99d30fabb6681
+generated: "2024-09-19T16:58:09.805731366-03:00"
