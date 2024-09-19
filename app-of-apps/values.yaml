@@ -11,38 +11,11 @@ global:
       targetRevision: HEAD
 
 argocdApplications:
-  cert-manager:
-    name: cert-manager
-    namespace: cert-manager
-    disableAutomated: false
-    disable: false
-    path: cert-manager
-    targetRevision: HEAD
-    helm: true
-
   superset:
     name: superset
     namespace: superset
     disableAutomated: false
     disable: false
     path: superset
-    targetRevision: HEAD
-    helm: true
-
-  nginx-ingress:
-    name: nginx-ingress
-    namespace: nginx-ingress
-    disableAutomated: false
-    disable: false
-    path: nginx-ingress
-    targetRevision: HEAD
-    helm: true
-
-  keda:
-    name: keda
-    namespace: keda
-    disableAutomated: false
-    disable: false
-    path: keda
     targetRevision: HEAD
     helm: true
