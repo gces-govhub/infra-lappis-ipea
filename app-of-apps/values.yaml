@@ -29,12 +29,12 @@ argocdApplications:
     targetRevision: HEAD
     helm: true
 
-  nginx-ingress:
-    name: nginx-ingress
-    namespace: nginx-ingress
+  ingress-nginx:
+    name: ingress-nginx
+    namespace: ingress-nginx
     disableAutomated: false
     disable: false
-    path: nginx-ingress
+    path: ingress-nginx
     targetRevision: HEAD
     helm: true
 
