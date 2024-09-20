@@ -183,13 +183,13 @@ Há três formas de instalação, documentadas a seguir.
 Clonar este repositório.
 
 ```bash
-git clone git@gitlab.com:lappis-unb/decidimbr/infra/continuous-deployment.git
+git clone git@gitlab.com:lappis-unb/gest-odadosipea/infra-lappis-ipea.git
 ```
 
-Navegar até a pasta 'continuous-deployment/airflow'.
+Navegar até a pasta 'infra-lappis-ipea/airflow'.
 
 ```bash
-cd continuous-deployment
+cd infra-lappis-ipea
 cd airflow
 ```
 
@@ -240,37 +240,8 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: 'airflow/homolog'
-    repoURL: 'https://gitlab.com/lappis-unb/decidimbr/infra/continuous-deployment.git'
+    repoURL: 'https://gitlab.com/lappis-unb/gest-odadosipea/infra-lappis-ipea.git'
     targetRevision: main
-    plugin:
-      name: kustomized-helm
-  sources: []
-  project: default
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
-EOF
-```
-
-### Via ArgoCD para o ambiente de produção.
-
-```bash
-kubectl -n argocd apply -f - <<EOF
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: airflow-install
-  finalizers:
-  - resources-finalizer.argocd.argoproj.io
-spec:
-  destination:
-    name: ''
-    namespace: airflow
-    server: 'https://kubernetes.default.svc'
-  source:
-    path: 'airflow/production'
-    repoURL: 'https://gitlab.com/lappis-unb/decidimbr/infra/continuous-deployment.git'
-    targetRevision: v0.3.0
     plugin:
       name: kustomized-helm
   sources: []
