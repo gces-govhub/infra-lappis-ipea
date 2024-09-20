@@ -1,5 +1,6 @@
-replicaCount: 1
-webhook:
+cert-manager:
   replicaCount: 1
-cainjector:
-  replicaCount: 1
+  webhook:
+    replicaCount: 1
+  cainjector:
+    replicaCount: 1

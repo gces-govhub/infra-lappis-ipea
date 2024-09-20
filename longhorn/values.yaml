@@ -1,5 +1,6 @@
-preUpgradeChecker:
-  jobEnabled: false
+longhorn:
+  preUpgradeChecker:
+    jobEnabled: false
 
-# defaultSettings:
-#   backupTarget: nfs://<ip-vm-nfs>/exports/backups
+  # defaultSettings:
+  #   backupTarget: nfs://<ip-vm-nfs>/exports/backups

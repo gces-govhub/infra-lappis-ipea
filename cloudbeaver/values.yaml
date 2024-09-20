@@ -1,25 +1,24 @@
+cloudbeaver:
+  replicaCount: 1
+  hostNetwork: false
+  image:
+    repository: dbeaver/cloudbeaver
+    pullPolicy: IfNotPresent
+    tag: "21.3.0"
 
-replicaCount: 1
-hostNetwork: false
-image:
-  repository: dbeaver/cloudbeaver
-  pullPolicy: IfNotPresent
-  tag: "21.3.0"
+  securityContext: {}
 
-securityContext: {}
+  service:
+    type: ClusterIP
+    port: 8978
 
-service:
-  type: ClusterIP
-  port: 8978
+  storage:
+    capacity: 5G
 
-
-storage:
-  capacity: 5G
-
-resources: 
-  requests:
-    cpu: 100m
-    memory: "128Mi"
-  limits:
-    cpu: 200m
-    memory: "256Mi"
+  resources:
+    requests:
+      cpu: 100m
+      memory: "128Mi"
+    limits:
+      cpu: 200m
+      memory: "256Mi"

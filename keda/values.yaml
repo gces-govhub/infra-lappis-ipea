@@ -1,6 +1,6 @@
-prometheus:
-  metricServer:
-    enabled: true
-crds:
-  install: false
-  
+keda:
+  prometheus:
+    metricServer:
+      enabled: true
+  crds:
+    install: false
