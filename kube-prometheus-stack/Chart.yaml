@@ -1,7 +1,7 @@
 apiVersion: 'v2'
 name: 'kube-prometheus-stack'
 description: 'kube prometheus stack'
-version: '1.14.1'
+version: '0.1.0'
 type: application
 dependencies:
 - name: kube-prometheus-stack
