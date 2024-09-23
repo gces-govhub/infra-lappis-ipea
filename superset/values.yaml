@@ -36,22 +36,28 @@ superset:
       secretName: superset-secret-key
       secretKey: SUPERSET_SECRET_KEY
 
+  ingress:
+    enabled: true
+    ingressClassName: "external-nginx"
+    # Extend timeout to allow long running queries.
+    annotations: {
+      "cert-manager.io/issuer": "superset-ui",
+      "acme.cert-manager.io/http01-edit-in-place": "true",
+      "nginx.ingress.kubernetes.io/proxy-connect-timeout": "300",
+      "nginx.ingress.kubernetes.io/proxy-read-timeout": "300",
+      "nginx.ingress.kubernetes.io/proxy-send-timeout": "300",
+    }
+    path: /
+    pathType: ImplementationSpecific
+    hosts:
+      - ipea-superset.lappis.rocks
+    tls:
+    - secretName: ingress-superset-ui
+      hosts:
+        - ipea-superset.lappis.rocks
 
-postgresql:
-  enabled: true
-  auth:
-    username: superset
-    password: supersetpassword
-    database: superset_db
-  primary:
-    persistence:
-      enabled: false 
+  postgresql:
+    enabled: true
 
-redis:
-  enabled: true
-  architecture: standalone
-  auth:
-    enabled: false
-  master:
-    persistence:
-      enabled: false 
+  redis:
+    enabled: true
