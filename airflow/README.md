@@ -4,6 +4,7 @@ airflow
 Instalação do Airflow em um cluster Kubernetes a partir do ArgoCD. Antes, é necessário fazer o deploy do MinIO.
 
 - [Secrets](#secrets)
+- [Bucket](#bucket)
 - [Fernet Key](#fernet-key)
 - [PostgreSQL](#postgresql)
 - [Setup](#setup)
@@ -105,6 +106,33 @@ metadata:
 type: Opaque
 stringData:
   connection: redis://:SUBSTITUA_POR_UMA_SENHA_PARA_O_REDIS@airflow-redis:6379/0
+EOF
+```
+
+## Bucket
+
+No MinIO ou em um S3, criar bucket chamado "airflow-logs" e uma service account de nome (access key id) "airflow-svcacct".
+
+Antes de fazer o primeiro setup do Airflow, configurar o acesso ao bucket a partir de um Secret do Kubernetes.
+
+```yaml
+kubectl -n airflow apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: minio-airflow-svcacct
+type: Opaque
+stringData:
+  # conn_id = aws_default
+  AIRFLOW_CONN_AWS_DEFAULT: '{
+    "conn_type": "aws",
+    "login": "SUBSTITUA_POR_UMA_ACCESS_KEY_ID",
+    "password": "SUBSTITUA_POR_UMA_SECRET_ACCESS_KEY",
+    "extra": {
+      "endpoint_url": "http://minio-svc.minio.svc.cluster.local:9000",
+      "region_name": "us-east-1"
+    }
+  }'
 EOF
 ```
 
