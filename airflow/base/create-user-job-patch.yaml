@@ -14,7 +14,7 @@ spec:
           args: []
           env:
             - name: PYTHONPATH
-              value: "/usr/local/lib/python310.zip:/usr/local/lib/python3.10:/usr/local/lib/python3.10/lib-dynload:/home/airflow/.local/lib/python3.10/site-packages:/usr/local/lib/python3.10/site-packages:/opt/airflow/dags-config/repo:/opt/airflow/dags-config/repo/plugins:/opt/airflow/dags:/opt/airflow/config"
+              value: "/usr/local/lib/python312.zip:/usr/local/lib/python3.12:/usr/local/lib/python3.12/lib-dynload:/home/airflow/.local/lib/python3.12/site-packages:/opt/airflow/dags-config/repo:/opt/airflow/dags-config/repo/plugins:/opt/airflow/dags:/opt/airflow/config"
             - name: WEBSERVER_DEFAULT_USER_ROLE
               valueFrom:
                 secretKeyRef:
