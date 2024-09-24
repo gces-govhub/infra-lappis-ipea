@@ -5,33 +5,33 @@ proxy:
       http: 30010
 
 singleuser:
-  # TODO: allow HTTPS traffic to the internet (egress)
-  networkPolicy:
-    enabled: true
-    ingress: []
-    egress:
-      - to:
-          - podSelector:
-              matchLabels:
-                name: minio
-        ports:
-          - protocol: TCP
-            port: 30006
-      - to:
-          - podSelector:
-              matchLabels:
-                name: postgres
-        ports:
-          - protocol: TCP
-            port: 5432
-      # - to:
-      #     - ipBlock:
-      #         cidr:
-      #     - ports:
-      #         - protocol: TCP
-      #           port: 443
-    # egressAllowRules:
-    #   privateIPs: false
+  # # TODO: allow HTTPS traffic to the internet (egress)
+  # networkPolicy:
+  #   enabled: true
+  #   ingress: []
+  #   egress:
+  #     - to:
+  #         - podSelector:
+  #             matchLabels:
+  #               name: minio
+  #       ports:
+  #         - protocol: TCP
+  #           port: 30006
+  #     - to:
+  #         - podSelector:
+  #             matchLabels:
+  #               name: postgres
+  #       ports:
+  #         - protocol: TCP
+  #           port: 5432
+  #     # - to:
+  #     #     - ipBlock:
+  #     #         cidr:
+  #     #     - ports:
+  #     #         - protocol: TCP
+  #     #           port: 443
+  #   # egressAllowRules:
+  #   #   privateIPs: false
 
   image:
     name: quay.io/jupyter/minimal-notebook
