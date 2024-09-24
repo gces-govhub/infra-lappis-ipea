@@ -4,14 +4,6 @@ description: 'Apache Superset Helm Chart'
 type: application
 version: '0.1.0'
 dependencies:
-  - name: superset
-    repository: 'https://apache.github.io/superset'
-    version: '0.12.11'  
-  - name: postgresql
-    repository: 'https://charts.bitnami.com/bitnami'
-    version: '12.1.6'  
-    alias: postgresql
-  - name: redis
-    repository: 'https://charts.bitnami.com/bitnami'
-    version: '17.9.4'  
-    alias: redis
+- name: superset
+  repository: 'https://apache.github.io/superset'
+  version: '0.12.11'

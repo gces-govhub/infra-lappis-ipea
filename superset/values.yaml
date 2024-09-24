@@ -13,28 +13,16 @@ superset:
       cpu: 500m
       memory: 1Gi
 
-  externalDatabase:
-    type: postgresql
-    host: postgresql
-    port: 5432
-    user: superset
-    password: supersetpassword
-    database: superset_db
+  extraEnvRaw:
+  - name: SUPERSET_SECRET_KEY
+    valueFrom:
+      secretKeyRef:
+        name: superset-secret-key
+        key: SUPERSET_SECRET_KEY
 
-  externalRedis:
-    host: redis
-    port: 6379
-    password: 'admin'
-  
-  configOverrides:
-    secret: |
-      import os
-      SECRET_KEY = os.getenv("SUPERSET_SECRET_KEY")
-
-  extraSecretEnv:
-    - name: SUPERSET_SECRET_KEY
-      secretName: superset-secret-key
-      secretKey: SUPERSET_SECRET_KEY
+  envFromSecret: custom-superset-env
+  secretEnv:
+    create: false
 
   ingress:
     enabled: true
@@ -57,7 +45,7 @@ superset:
         - ipea-superset.lappis.rocks
 
   postgresql:
-    enabled: true
+    enabled: false
 
   redis:
     enabled: true
