@@ -43,61 +43,65 @@ singleuser:
     kubespawner_override:
       image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
       cpu_limit: 1
+      cpu_guarantee: 1
       mem_limit: '4G'
+      mem_guarantee: '4G'
   - display_name: "quay.io/jupyter/pyspark-notebook"
     description: "Limit: CPU 2, Memory 4G"
     kubespawner_override:
       image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
       cpu_limit: 2
+      cpu_guarantee: 2
       mem_limit: '4G'
+      mem_guarantee: '4G'
   - display_name: "quay.io/jupyter/pyspark-notebook"
     description: "Limit: CPU 4, Memory 8G"
     kubespawner_override:
       image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
       cpu_limit: 4
+      cpu_guarantee: 4
       mem_limit: '8G'
+      mem_guarantee: '8G'
   - display_name: "quay.io/jupyter/pyspark-notebook"
     description: "Limit: CPU 8, Memory 16G"
     kubespawner_override:
       image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
       cpu_limit: 8
+      cpu_guarantee: 8
       mem_limit: '16G'
-  - display_name: "quay.io/jupyter/pyspark-notebook"
-    description: "Limit: CPU 8, Memory 32G"
-    kubespawner_override:
-      image: quay.io/jupyter/pyspark-notebook:9e230b3b7d24
-      cpu_limit: 8
-      mem_limit: '32G'
+      mem_guarantee: '16G'
   - display_name: "quay.io/jupyter/pyspark-notebook"
     description: "Limit: CPU 1, Memory 4G"
     kubespawner_override:
       image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
       cpu_limit: 1
+      cpu_guarantee: 1
       mem_limit: '4G'
+      mem_guarantee: '4G'
   - display_name: "quay.io/jupyter/minimal-notebook"
     description: "Limit: CPU 2, Memory 4G"
     kubespawner_override:
       image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
       cpu_limit: 2
+      cpu_guarantee: 2
       mem_limit: '4G'
+      mem_guarantee: '4G'
   - display_name: "quay.io/jupyter/minimal-notebook"
     description: "Limit: CPU 4, Memory 8G"
     kubespawner_override:
       image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
       cpu_limit: 4
+      cpu_guarantee: 4
       mem_limit: '8G'
+      mem_guarantee: '8G'
   - display_name: "quay.io/jupyter/minimal-notebook"
     description: "Limit: CPU 8, Memory 16G"
     kubespawner_override:
       image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
       cpu_limit: 8
+      cpu_guarantee: 8
       mem_limit: '16G'
-  - display_name: "quay.io/jupyter/minimal-notebook"
-    description: "Limit: CPU 8, Memory 32G"
-    kubespawner_override:
-      image: quay.io/jupyter/minimal-notebook:9e230b3b7d24
-      cpu_limit: 8
-      mem_limit: '32G'
+      mem_guarantee: '16G'
 
   storage:
     dynamic:
