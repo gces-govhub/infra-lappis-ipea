@@ -261,7 +261,7 @@ dags:
     enabled: false
   gitSync:
     enabled: true
-    repo: https://gitlab.com/lappis-unb/decidimbr/servicos-de-dados/airflow-dags
+    repo: https://gitlab.com/lappis-unb/gest-odadosipea/data-mapping
     depth: 2
     # the number of consecutive failures allowed before aborting
     maxFailures: 0
