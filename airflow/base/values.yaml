@@ -1,6 +1,6 @@
 useStandardNaming: true
 
-defaultAirflowRepository: registry.gitlab.com/lappis-unb/decidimbr/servicos-de-dados/airflow-docker
+defaultAirflowRepository: registry.gitlab.com/lappis-unb/decidimbr/servicos-de-dados/airflow-docker/main
 defaultAirflowTag: "docker-6157d132-dags-dd98e20"
 airflowVersion: "2.9.3"
 
