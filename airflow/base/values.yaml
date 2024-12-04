@@ -1,7 +1,7 @@
 useStandardNaming: true
 
-defaultAirflowRepository: gitlab.com/lappis-unb/decidimbr/servicos-de-dados/airflow-docker/container_registry/6269290
-defaultAirflowTag: "docker-6157d132-dags-dd98e20"
+defaultAirflowRepository: joycedio/airflow-ipea
+defaultAirflowTag: "latest"
 airflowVersion: "2.9.3"
 
 executor: "CeleryKubernetesExecutor"
