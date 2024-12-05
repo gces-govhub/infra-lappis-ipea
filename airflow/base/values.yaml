@@ -1,6 +1,6 @@
 useStandardNaming: true
 
-defaultAirflowRepository: joycedio/airflow-ipea
+defaultAirflowRepository: joycedio/ipea-airflow
 defaultAirflowTag: "latest"
 airflowVersion: "2.9.3"
 
