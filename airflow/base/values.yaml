@@ -1,8 +1,8 @@
 useStandardNaming: true
 
-defaultAirflowRepository: joycedio/ipea-airflow
+defaultAirflowRepository: joycedio/ipea
 defaultAirflowTag: "latest"
-airflowVersion: "2.9.3"
+airflowVersion: "2.10.3"
 
 executor: "CeleryKubernetesExecutor"
 
