@@ -1,8 +1,10 @@
 useStandardNaming: true
 
-defaultAirflowRepository: joycedio/ipea
+defaultAirflowRepository: registry.gitlab.com/lappis-unb/gest-odadosipea/app-lappis-ipea/airflow-ipea
 defaultAirflowTag: "latest"
-airflowVersion: "2.10.3"
+airflowVersion: "2.8.1"
+
+
 
 executor: "CeleryKubernetesExecutor"
 
