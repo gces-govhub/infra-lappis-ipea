@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certs-api-config
+  namespace: jupyterhub
+data:
+  volumeMounts: |
+    - name: cert-volume
+      mountPath: "/etc/tls/certs"
+      readOnly: true
+  volumes: |
+    - name: cert-volume
+      secret:
+        secretName: extrator-ipea-certificate
