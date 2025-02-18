@@ -7,12 +7,20 @@ helmCharts:
   version: 3.3.7
   releaseName: jupyterhub
   namespace: jupyterhub
-  valuesFile: ../base/values.yaml  # Certifique-se de que este caminho está correto
+  valuesFile: ../base/values.yaml
   valuesInline:
     singleuser:
       storage:
         capacity: 10Gi
+    hub:
+      extraVolumes:
+        - name: cert-volume
+          secret:
+            secretName: extrator-ipea-certificate
+      extraVolumeMounts:
+        - name: cert-volume
+          mountPath: "/etc/tls/certs"
+          readOnly: true
 
 resources:
 - shared-storage-pvc.yaml
-- certs-api.yaml   # Adiciona o arquivo certs-api.yaml aqui para ser processado
