@@ -13,6 +13,8 @@ spec:
     repoURL: "https://gitlab.com/lappis-unb/gest-odadosipea/infra-lappis-ipea.git"
     targetRevision: feat/overlay
     path: jupyterhub/prod
+    plugin:
+      name: kustomized-helm
   destination:
     server: https://kubernetes.default.svc
     namespace: jupyterhub
