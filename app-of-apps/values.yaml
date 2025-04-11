@@ -28,7 +28,7 @@ argocdApplications:
     disable: false
     path: superset
     targetRevision: HEAD
-    helm: true
+    helm: false
 
   ingress-nginx:
     name: ingress-nginx
