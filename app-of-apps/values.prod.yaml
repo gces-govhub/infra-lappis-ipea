@@ -7,13 +7,11 @@ argocdApplications:
     namespace: airflow
     disable: false
     path: airflow/prod
-    helm: true
   superset:
     name: superset
     namespace: superset
     disable: false
     path: superset/prod
-    helm: true
   # Instalamos igual como está em homologação
   keda: {}
   kube-prometheus-stack: {}
