@@ -7,7 +7,7 @@ argocdApplications:
     namespace: airflow
     disable: false
     path: airflow/prod
-    helm: true
+    helm: false
   superset:
     name: superset
     namespace: superset
