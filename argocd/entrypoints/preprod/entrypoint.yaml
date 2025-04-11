@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: "https://gitlab.com/lappis-unb/gest-odadosipea/infra-lappis-ipea.git"
-    targetRevision: feat/overlay
+    targetRevision: main
     path: app-of-apps
     helm:
       valueFiles:
