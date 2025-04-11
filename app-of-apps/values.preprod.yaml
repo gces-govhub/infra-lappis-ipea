@@ -14,7 +14,9 @@ argocdApplications:
     path: superset/prod
   # Instalamos igual como está em homologação
   keda: {}
-  kube-prometheus-stack: {}
+  # Vamos desabilitar por hora visto que não foi implementado em homolog ainda
+  kube-prometheus-stack:
+    disable: true
   # Já vêm instalado em produção
   ingress-nginx:
     disable: true
