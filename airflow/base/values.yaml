@@ -49,25 +49,6 @@ secret:
   - envName: AIRFLOW_CONN_AWS_DEFAULT
     secretName: "minio-airflow-svcacct"
     secretKey: AIRFLOW_CONN_AWS_DEFAULT
-    # DATA WAREHOUSE
-  - envName: DB_DW_DBNAME
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_DBNAME
-  - envName: DB_DW_HOST
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_HOST
-  - envName: DB_DW_PASSWORD
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_PASSWORD
-  - envName: DB_DW_PORT
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_PORT
-  - envName: DB_DW_SCHEMA
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_SCHEMA
-  - envName: DB_DW_USER
-    secretName: "db-dw-analytics"
-    secretKey: DB_DW_USER
 
 extraEnv: |
   - name: AIRFLOW__METRICS__METRICS_ALLOW_LIST
@@ -118,6 +99,37 @@ extraEnv: |
     value: /opt/airflow/dags-data/repo/airflow_lappis/dags
   - name: AIRFLOW_REPO_BASE
     value: /opt/airflow/dags-data/repo/airflow_lappis
+
+  - name: DB_DW_DBNAME
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_DBNAME
+  - name: DB_DW_HOST
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_HOST
+  - name: DB_DW_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_PASSWORD
+  - name: DB_DW_PORT
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_PORT
+  - name: DB_DW_SCHEMA
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_SCHEMA
+  - name: DB_DW_USER
+    valueFrom:
+      secretKeyRef:
+        name: db-dw-analytics
+        key: DB_DW_USER
 
 # Airflow database & redis config
 data:
