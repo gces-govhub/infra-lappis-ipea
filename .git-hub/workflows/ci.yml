@@ -1,0 +1,27 @@
+name: CI Infra Lappis IPEA
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Format Terraform
+      run: terraform fmt -check -recursive
+
+    - name: Validate Terraform
+      run: terraform validate
+
+    - name: Ansible Lint
+      uses: ansible/ansible-lint-action@main
