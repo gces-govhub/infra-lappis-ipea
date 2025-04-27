@@ -1,5 +1,7 @@
 # README - Infraestrutura de Acesso aos Serviços
 
+[![Contribua com o projeto 🚀](https://img.shields.io/badge/Contribua%20com%20o%20projeto-🚀-brightgreen)](CONTRIBUTING.md)
+
 Este documento descreve as instruções para acesso aos serviços de infraestrutura que estão disponíveis na rede VPN. É necessário que os membros da equipe de infraestrutura disponibilizem acesso à VPN e as credenciais para cada serviço, conforme descrito abaixo.
 
 ---
