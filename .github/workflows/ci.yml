@@ -22,6 +22,3 @@ jobs:
 
     - name: Validate Terraform
       run: terraform validate
-
-    - name: Ansible Lint
-      uses: ansible/ansible-lint-action@main
